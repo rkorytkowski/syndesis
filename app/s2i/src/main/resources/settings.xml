@@ -99,6 +99,14 @@
     </profile>
   </profiles>
 
+  <mirrors>
+    <mirror>
+      <id>internal.mirror</id>
+      <url>http://nexus.myproject:8081/nexus/content/groups/public</url>
+      <mirrorOf>external:*</mirrorOf>
+    </mirror>
+  </mirrors>
+
   <activeProfiles>
     <activeProfile>fusesource.repo</activeProfile>
   </activeProfiles>
