@@ -121,6 +121,7 @@ public class GenerateResourceInspectionsMojo extends AbstractMojo {
     }
 
     private void generateInspection(Path xsdFile) throws IOException {
+        getLog().info("Inspecting " + xsdFile);
         SchemaInspector inspector = new SchemaInspector();
         try {
             inspector.inspect(xsdFile.toFile());
