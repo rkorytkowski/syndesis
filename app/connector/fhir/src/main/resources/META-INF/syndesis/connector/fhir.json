@@ -31,6 +31,17 @@
                 "secret": false,
                 "type": "String"
               },
+              "containedResourceTypes": {
+                "deprecated": false,
+                "displayName": "Contained resource types",
+                "group": "common",
+                "javaType": "java.lang.String",
+                "kind": "parameter",
+                "labelHint": "The contained resource types, which may be included within e.g. a Bundle",
+                "required": false,
+                "secret": false,
+                "type": "String"
+              },
               "id": {
                 "deprecated": false,
                 "displayName": "Resource id",

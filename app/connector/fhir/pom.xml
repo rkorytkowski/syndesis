@@ -142,6 +142,10 @@
       <version>2.20.0</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>io.atlasmap</groupId>
+      <artifactId>atlas-xml-model</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
