@@ -35,15 +35,13 @@ public abstract class FhirReadDeleteBaseCustomizer implements ComponentProxyCust
 
     @Override
     public void customize(ComponentProxyComponent component, Map<String, Object> options) {
-        String fhirVersion = (String) options.get("fhirVersion");
-        FhirVersionEnum fhirVersionEnum = FhirVersionEnum.valueOf(fhirVersion);
-        fhirContext = new FhirContext(fhirVersionEnum);
+        fhirContext = FhirCustomizerHelper.newFhirContext(options);
 
         id = (String) options.get("id");
         resourceType = (String) options.get("resourceType");
         version = (String) options.get("version");
 
-        options.put("apiName", FhirApiCollection.getCollection().getApiName(getApiMethodClass()).getName());
+        options.put("apiName", FhirCustomizerHelper.getFhirApiName(getApiMethodClass()));
         options.put("methodName", "resourceById");
 
         component.setBeforeProducer(this::beforeProducer);

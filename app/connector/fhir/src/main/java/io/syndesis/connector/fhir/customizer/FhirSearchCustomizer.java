@@ -16,29 +16,38 @@
 package io.syndesis.connector.fhir.customizer;
 
 import io.syndesis.integration.component.proxy.ComponentProxyComponent;
-import io.syndesis.integration.component.proxy.ComponentProxyCustomizer;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
-import org.apache.camel.component.fhir.internal.FhirApiCollection;
+import org.apache.camel.component.fhir.internal.FhirSearchApiMethod;
+import org.apache.camel.impl.DefaultMessage;
+import org.apache.camel.util.ObjectHelper;
 import org.apache.camel.util.component.ApiMethod;
 
 import java.util.Map;
 
-public abstract class FhirCreateUpdateBaseCustomizer implements ComponentProxyCustomizer {
+public class FhirSearchCustomizer  extends FhirReadCustomizer {
+    private String query;
+
+    @Override
+    public Class<? extends ApiMethod> getApiMethodClass() {
+        return FhirSearchApiMethod.class;
+    }
 
     @Override
     public void customize(ComponentProxyComponent component, Map<String, Object> options) {
-        options.put("apiName", FhirCustomizerHelper.getFhirApiName(getApiMethodClass()));
-        options.put("methodName", "resource");
+        super.customize(component, options);
+        query = (String) options.get("query");
 
-        component.setBeforeProducer(this::beforeProducer);
+        options.put("methodName", "searchByUrl?inBody=url");
     }
 
-    public abstract Class<? extends ApiMethod> getApiMethodClass();
 
+    @Override
     public void beforeProducer(Exchange exchange) {
         final Message in = exchange.getIn();
-        String resource = in.getBody(String.class);
-        in.setHeader("CamelFhir.resourceAsString", resource);
+
+        if (ObjectHelper.isNotEmpty(query)) {
+            in.setBody(query);
+        }
     }
 }

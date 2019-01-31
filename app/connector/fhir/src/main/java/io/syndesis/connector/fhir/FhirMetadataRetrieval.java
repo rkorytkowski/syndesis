@@ -55,7 +55,7 @@ public class FhirMetadataRetrieval extends ComponentMetadataRetrieval {
     @SuppressWarnings("unchecked")
     @Override
     protected SyndesisMetadata adapt(CamelContext context, String componentId, String actionId, Map<String, Object> properties, MetaDataExtension.MetaData metadata) {
-        if (!properties.containsKey("resourceType")) {
+        if (!(properties.containsKey("resourceType") || properties.containsKey("containedResourceTypes"))) {
             return SyndesisMetadata.EMPTY;
         }
 
@@ -65,10 +65,14 @@ public class FhirMetadataRetrieval extends ComponentMetadataRetrieval {
             t -> resourceTypeResult.add(new PropertyPair(t, t))
         );
 
-        if (ObjectHelper.isNotEmpty(properties.get("resourceType"))) {
+        if (ObjectHelper.isNotEmpty(properties.get("resourceType")) || ObjectHelper.isNotEmpty(properties.get("containedResourceTypes"))) {
             final Map<String, List<PropertyPair>> enrichedProperties = new HashMap<>();
             enrichedProperties.put("resourceType",resourceTypeResult);
             enrichedProperties.put("containedResourceTypes", resourceTypeResult);
+
+            if (ObjectHelper.isEmpty(properties.get("resourceType"))) {
+                properties.put("resourceType", "Bundle"); //default resource type if only containedResourceTypes is set
+            }
 
             String type = properties.get("resourceType").toString();
             try {
@@ -93,6 +97,17 @@ public class FhirMetadataRetrieval extends ComponentMetadataRetrieval {
                             .description("FHIR " + type)
                             .specification(specification)
                             .name(type).build());
+                } else if (actionId.contains("search")) {
+                        return new SyndesisMetadata(
+                            enrichedProperties,
+                            new DataShape.Builder().kind(DataShapeKinds.NONE)
+                                .description("FHIR " + actionId)
+                                .name(actionId).build(),
+                            new DataShape.Builder().kind(DataShapeKinds.XML_SCHEMA_INSPECTED)//
+                                .type(type)
+                                .description("FHIR " + type)
+                                .specification(specification)
+                                .name(type).build());
                 } else if (actionId.contains("delete")) {
                     return new SyndesisMetadata(
                         enrichedProperties,

@@ -77,6 +77,54 @@
     },
     {
       "actionType": "connector",
+      "description": "Search for resources on the server",
+      "descriptor": {
+        "connectorCustomizers": [
+          "io.syndesis.connector.fhir.customizer.FhirSearchCustomizer"
+        ],
+        "outputDataShape": {
+          "kind": "xml-schema"
+        },
+        "propertyDefinitionSteps": [
+          {
+            "description": "Specify the query (e.g. 'Patient?given=Vincent&family=Freeman') and expected return types",
+            "name": "Search for resources on the server",
+            "properties": {
+              "containedResourceTypes": {
+                "deprecated": false,
+                "displayName": "Returned resource types",
+                "group": "common",
+                "javaType": "java.lang.String",
+                "kind": "parameter",
+                "labelHint": "The returned resource types, which may be included within a result Bundle",
+                "required": false,
+                "secret": false,
+                "type": "String"
+              },
+              "query": {
+                "deprecated": false,
+                "displayName": "Query",
+                "group": "common",
+                "javaType": "java.lang.String",
+                "kind": "parameter",
+                "labelHint": "The query (e.g. 'Patient?given=Vincent&family=Freeman')",
+                "required": false,
+                "secret": false,
+                "type": "String"
+              }
+            }
+          }
+        ]
+      },
+      "id": "io.syndesis:fhir-search-connector",
+      "name": "Search",
+      "pattern": "To",
+      "tags": [
+        "dynamic"
+      ]
+    },
+    {
+      "actionType": "connector",
       "description": "Delete a resource from the server",
       "descriptor": {
         "connectorCustomizers": [
