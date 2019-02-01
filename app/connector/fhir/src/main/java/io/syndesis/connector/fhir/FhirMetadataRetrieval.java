@@ -22,6 +22,7 @@ import io.atlasmap.xml.v2.XmlDocument;
 import io.atlasmap.xml.v2.XmlField;
 import io.syndesis.common.model.DataShape;
 import io.syndesis.common.model.DataShapeKinds;
+import io.syndesis.common.model.connection.ConfigurationProperty;
 import io.syndesis.common.util.Resources;
 import io.syndesis.connector.support.verifier.api.ComponentMetadataRetrieval;
 import io.syndesis.connector.support.verifier.api.PropertyPair;
@@ -33,7 +34,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -79,10 +79,9 @@ public class FhirMetadataRetrieval extends ComponentMetadataRetrieval {
                 String resourcePath = type.toLowerCase(Locale.ENGLISH);
                 String specification = Resources.getResourceAsText("META-INF/syndesis/schemas/dstu3/" + resourcePath + ".json", FhirMetadataRetrieval.class.getClassLoader());
 
-                Object containedResourceTypes = properties.get("containedResourceTypes");
-                if (ObjectHelper.isNotEmpty(containedResourceTypes)) {
-                    //TODO: Fix property to be String[] (multi selection) and not String (single selection)
-                    specification = includeResources(specification, (String) containedResourceTypes);
+                if (ObjectHelper.isNotEmpty(properties.get("containedResourceTypes"))) {
+                    String[] containedResourceTypes = StringUtils.split(properties.get("containedResourceTypes").toString(), ConfigurationProperty.MULTIPLE_SEPARATOR);
+                    specification = includeResources(specification, containedResourceTypes);
                 }
 
                 if (actionId.contains("read")) {

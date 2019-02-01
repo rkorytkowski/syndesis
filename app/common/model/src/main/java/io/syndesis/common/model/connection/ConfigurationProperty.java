@@ -32,6 +32,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @SuppressWarnings("immutables")
 public interface ConfigurationProperty extends WithTags, Ordered, Serializable {
 
+    String MULTIPLE_SEPARATOR = " |#| ";
+
     class Builder extends ImmutableConfigurationProperty.Builder {
         // make ImmutableConfigurationProperty.Builder accessible
     }
@@ -79,6 +81,8 @@ public interface ConfigurationProperty extends WithTags, Ordered, Serializable {
     String getJavaType();
 
     String getKind();
+
+    Boolean getMultiple();
 
     String getLabel();
 

@@ -35,12 +35,13 @@
                 "deprecated": false,
                 "displayName": "Contained resource types",
                 "group": "common",
-                "javaType": "java.lang.String",
+                "javaType": "java.lang.String[]",
                 "kind": "parameter",
                 "labelHint": "The contained resource types, which may be included within e.g. a Bundle",
                 "required": false,
                 "secret": false,
-                "type": "String"
+                "type": "select",
+                "multiple": true
               },
               "id": {
                 "deprecated": false,
