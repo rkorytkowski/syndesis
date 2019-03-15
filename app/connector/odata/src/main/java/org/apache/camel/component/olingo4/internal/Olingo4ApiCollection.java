@@ -19,15 +19,16 @@
  */
 package org.apache.camel.component.olingo4.internal;
 
+import org.apache.camel.component.olingo4.Olingo4AppEndpointConfiguration;
+import org.apache.camel.component.olingo4.Olingo4Configuration;
+import org.apache.camel.support.component.ApiCollection;
+import org.apache.camel.support.component.ApiMethod;
+import org.apache.camel.support.component.ApiMethodHelper;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.camel.component.olingo4.Olingo4AppEndpointConfiguration;
-import org.apache.camel.component.olingo4.Olingo4Configuration;
-import org.apache.camel.util.component.ApiCollection;
-import org.apache.camel.util.component.ApiMethod;
-import org.apache.camel.util.component.ApiMethodHelper;
 
 /**
  * Camel {@link ApiCollection} for Olingo4

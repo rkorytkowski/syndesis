@@ -15,6 +15,27 @@
  */
 package io.syndesis.connector.odata;
 
+import org.apache.camel.support.jsse.KeyManagersParameters;
+import org.apache.camel.support.jsse.KeyStoreParameters;
+import org.apache.camel.support.jsse.SSLContextParameters;
+import org.apache.camel.support.jsse.TrustManagersParameters;
+import org.apache.camel.util.ObjectHelper;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.apache.olingo.client.api.http.HttpClientFactory;
+import org.apache.olingo.commons.api.http.HttpMethod;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,26 +54,6 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.util.Map;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManagerFactory;
-import org.apache.camel.util.ObjectHelper;
-import org.apache.camel.util.jsse.KeyManagersParameters;
-import org.apache.camel.util.jsse.KeyStoreParameters;
-import org.apache.camel.util.jsse.SSLContextParameters;
-import org.apache.camel.util.jsse.TrustManagersParameters;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
-import org.apache.olingo.client.api.http.HttpClientFactory;
-import org.apache.olingo.commons.api.http.HttpMethod;
 
 @SuppressWarnings("PMD")
 public class ODataUtil implements ODataConstants {

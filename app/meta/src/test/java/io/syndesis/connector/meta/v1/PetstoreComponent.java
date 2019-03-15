@@ -15,13 +15,13 @@
  */
 package io.syndesis.connector.meta.v1;
 
-import java.util.Map;
-import java.util.Optional;
-
 import org.apache.camel.Endpoint;
 import org.apache.camel.component.extension.MetaDataExtension;
 import org.apache.camel.component.extension.metadata.MetaDataBuilder;
-import org.apache.camel.impl.DefaultComponent;
+import org.apache.camel.support.DefaultComponent;
+
+import java.util.Map;
+import java.util.Optional;
 
 public class PetstoreComponent extends DefaultComponent {
 

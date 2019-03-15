@@ -19,7 +19,7 @@
  */
 package org.apache.camel.component.olingo4.internal;
 
-import org.apache.camel.util.component.ApiName;
+import org.apache.camel.support.component.ApiName;
 
 /**
  * Camel {@link ApiName} Enumeration for Component Olingo4

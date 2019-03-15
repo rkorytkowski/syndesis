@@ -25,8 +25,8 @@ import org.apache.camel.component.olingo4.internal.Olingo4ApiName;
 import org.apache.camel.component.olingo4.internal.Olingo4Constants;
 import org.apache.camel.component.olingo4.internal.Olingo4PropertiesHelper;
 import org.apache.camel.util.ObjectHelper;
-import org.apache.camel.util.component.AbstractApiProducer;
-import org.apache.camel.util.component.ApiMethod;
+import org.apache.camel.support.component.AbstractApiProducer;
+import org.apache.camel.support.component.ApiMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

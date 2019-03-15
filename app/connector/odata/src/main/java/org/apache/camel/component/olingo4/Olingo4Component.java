@@ -15,10 +15,6 @@
  */
 package org.apache.camel.component.olingo4;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.util.Map;
-
 import org.apache.camel.CamelContext;
 import org.apache.camel.Endpoint;
 import org.apache.camel.SSLContextParametersAware;
@@ -26,12 +22,16 @@ import org.apache.camel.component.olingo4.api.impl.Olingo4AppImpl;
 import org.apache.camel.component.olingo4.internal.Olingo4ApiCollection;
 import org.apache.camel.component.olingo4.internal.Olingo4ApiName;
 import org.apache.camel.spi.Metadata;
+import org.apache.camel.support.component.AbstractApiComponent;
+import org.apache.camel.support.jsse.SSLContextParameters;
 import org.apache.camel.util.ObjectHelper;
-import org.apache.camel.util.component.AbstractApiComponent;
-import org.apache.camel.util.jsse.SSLContextParameters;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Map;
 
 /**
  * Represents the component that manages {@link Olingo4Endpoint}.

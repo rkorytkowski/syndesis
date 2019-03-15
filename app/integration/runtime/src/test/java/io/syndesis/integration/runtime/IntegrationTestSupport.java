@@ -29,6 +29,7 @@ import org.apache.camel.Body;
 import org.apache.camel.CamelContext;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.SimpleRegistry;
+import org.apache.camel.model.ModelCamelContext;
 import org.apache.camel.model.ModelHelper;
 import org.apache.camel.model.ProcessorDefinition;
 import org.apache.camel.model.RouteDefinition;
@@ -72,7 +73,7 @@ public class IntegrationTestSupport implements StringConstants {
 
     protected void dumpRoutes(CamelContext context) {
         RoutesDefinition definition = new RoutesDefinition();
-        definition.setRoutes(context.getRouteDefinitions());
+        definition.setRoutes(context.adapt(ModelCamelContext.class).getRouteDefinitions());
 
         dumpRoutes(context, definition);
     }

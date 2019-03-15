@@ -15,8 +15,7 @@
  */
 package io.syndesis.connector.gmail;
 
-import java.util.Map;
-
+import com.google.api.services.gmail.Gmail;
 import org.apache.camel.CamelContext;
 import org.apache.camel.component.extension.verifier.DefaultComponentVerifierExtension;
 import org.apache.camel.component.extension.verifier.ResultBuilder;
@@ -26,7 +25,7 @@ import org.apache.camel.component.google.mail.BatchGoogleMailClientFactory;
 import org.apache.camel.component.google.mail.GoogleMailClientFactory;
 import org.apache.camel.component.google.mail.GoogleMailConfiguration;
 
-import com.google.api.services.gmail.Gmail;
+import java.util.Map;
 
 public class GmailVerifierExtension extends DefaultComponentVerifierExtension {
 
@@ -61,7 +60,7 @@ public class GmailVerifierExtension extends DefaultComponentVerifierExtension {
             GoogleMailConfiguration configuration = setProperties(new GoogleMailConfiguration(), parameters);
             GoogleMailClientFactory clientFactory = new BatchGoogleMailClientFactory();
             Gmail client = clientFactory.makeClient(configuration.getClientId(), configuration.getClientSecret(),
-                    configuration.getScopes(), configuration.getApplicationName(),
+                    configuration.getApplicationName(),
                     configuration.getRefreshToken(), configuration.getAccessToken());
             client.users().getProfile((String) parameters.get("userId")).execute();
         } catch (Exception e) {

@@ -15,10 +15,6 @@
  */
 package io.syndesis.integration.runtime.handlers;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 import io.syndesis.common.model.action.ConnectorAction;
 import io.syndesis.common.model.action.ConnectorDescriptor;
 import io.syndesis.common.model.action.StepAction;
@@ -31,6 +27,7 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.Handler;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
+import org.apache.camel.model.ModelCamelContext;
 import org.apache.camel.model.PipelineDefinition;
 import org.apache.camel.model.ProcessDefinition;
 import org.apache.camel.model.ProcessorDefinition;
@@ -39,6 +36,10 @@ import org.apache.camel.model.SetHeaderDefinition;
 import org.apache.camel.model.ToDefinition;
 import org.junit.Test;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings({"PMD.ExcessiveImports", "PMD.JUnitTestContainsTooManyAsserts"})
@@ -46,7 +47,7 @@ public class ExtensionStepHandlerTest extends IntegrationTestSupport {
 
     @Test
     public void testEndpointExtensionStepHandler() throws Exception {
-        final CamelContext context = new DefaultCamelContext();
+        final ModelCamelContext context = new DefaultCamelContext().adapt(ModelCamelContext.class);
 
         try {
             final RouteBuilder routeBuilder = newIntegrationRouteBuilder(
@@ -126,7 +127,7 @@ public class ExtensionStepHandlerTest extends IntegrationTestSupport {
 
     @Test
     public void testBeanExtensionStepHandler() throws Exception {
-        final CamelContext context = new DefaultCamelContext();
+        final ModelCamelContext context = new DefaultCamelContext().adapt(ModelCamelContext.class);
 
         try {
             final RouteBuilder routeBuilder = newIntegrationRouteBuilder(
@@ -200,7 +201,7 @@ public class ExtensionStepHandlerTest extends IntegrationTestSupport {
 
     @Test
     public void testStepExtensionStepHandler() throws Exception {
-        final CamelContext context = new DefaultCamelContext();
+        final ModelCamelContext context = new DefaultCamelContext().adapt(ModelCamelContext.class);
 
         try {
             final RouteBuilder routeBuilder = newIntegrationRouteBuilder(

@@ -135,11 +135,12 @@
         </executions>
         <dependencies>
           <!-- ==== REST Swagger ==== -->
-          <dependency>
+          <!-- TODO: Camel 3 Enable back when connector-rest-swagger ready -->
+          <!-- <dependency>
             <groupId>io.syndesis.connector</groupId>
             <artifactId>connector-rest-swagger</artifactId>
-            <version>${project.version}</version>
-          </dependency>
+            <version>1.6.0.fuse-730004</version>
+          </dependency> -->
         </dependencies>
       </plugin>
 

@@ -15,14 +15,14 @@
  */
 package io.syndesis.integration.runtime.capture;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import io.syndesis.integration.runtime.logging.IntegrationLoggingConstants;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
-import org.apache.camel.impl.MessageSupport;
+import org.apache.camel.support.MessageSupport;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Used to capture the out messages of processors with configured ids.  The messages are placed into

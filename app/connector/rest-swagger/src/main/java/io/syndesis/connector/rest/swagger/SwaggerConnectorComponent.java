@@ -39,8 +39,8 @@ import org.apache.camel.component.connector.DefaultConnectorComponent;
 import org.apache.camel.component.connector.DefaultConnectorEndpoint;
 import org.apache.camel.component.rest.swagger.RestSwaggerEndpoint;
 import org.apache.camel.processor.Pipeline;
-import org.apache.camel.util.IntrospectionSupport;
-import org.apache.camel.util.IntrospectionSupport.ClassInfo;
+import org.apache.camel.support.IntrospectionSupport;
+import org.apache.camel.support.IntrospectionSupport.ClassInfo;
 import org.apache.commons.io.IOUtils;
 
 public final class SwaggerConnectorComponent extends DefaultConnectorComponent {

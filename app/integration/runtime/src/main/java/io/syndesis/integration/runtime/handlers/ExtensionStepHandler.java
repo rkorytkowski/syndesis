@@ -15,22 +15,23 @@
  */
 package io.syndesis.integration.runtime.handlers;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
+import io.syndesis.common.model.action.StepAction;
+import io.syndesis.common.model.integration.StepKind;
 import io.syndesis.extension.api.Step;
 import io.syndesis.integration.runtime.IntegrationRouteBuilder;
 import io.syndesis.integration.runtime.IntegrationStepHandler;
 import io.syndesis.integration.runtime.util.StringHelpers;
-import io.syndesis.common.model.action.StepAction;
-import io.syndesis.common.model.integration.StepKind;
 import org.apache.camel.CamelContext;
+import org.apache.camel.CamelContextAware;
 import org.apache.camel.TypeConverter;
 import org.apache.camel.model.ProcessorDefinition;
-import org.apache.camel.util.IntrospectionSupport;
+import org.apache.camel.support.IntrospectionSupport;
 import org.apache.camel.util.ObjectHelper;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ExtensionStepHandler implements IntegrationStepHandler{
     @Override
@@ -114,7 +115,7 @@ public class ExtensionStepHandler implements IntegrationStepHandler{
                     // Set the camel context if the step extension object implements
                     // CamelContextAware, this is a shortcut to retrieve it from
                     // the handler method.
-                    ObjectHelper.trySetCamelContext(stepExtension, context);
+                    CamelContextAware.trySetCamelContext(stepExtension, context);
 
                     @SuppressWarnings({"rawtypes", "unchecked"})
                     final Optional<ProcessorDefinition<?>> configured = (Optional) stepExtension.configure(context, route, props);

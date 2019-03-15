@@ -15,12 +15,6 @@
  */
 package org.apache.camel.component.olingo4;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.camel.Consumer;
 import org.apache.camel.Processor;
 import org.apache.camel.Producer;
@@ -30,9 +24,15 @@ import org.apache.camel.component.olingo4.internal.Olingo4Constants;
 import org.apache.camel.component.olingo4.internal.Olingo4PropertiesHelper;
 import org.apache.camel.spi.UriEndpoint;
 import org.apache.camel.spi.UriParam;
-import org.apache.camel.util.component.AbstractApiEndpoint;
-import org.apache.camel.util.component.ApiMethod;
-import org.apache.camel.util.component.ApiMethodPropertiesHelper;
+import org.apache.camel.support.component.AbstractApiEndpoint;
+import org.apache.camel.support.component.ApiMethod;
+import org.apache.camel.support.component.ApiMethodPropertiesHelper;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Communicates with OData 4.0 services using Apache Olingo OData API.

@@ -37,7 +37,7 @@ import org.apache.camel.component.google.sheets.internal.GoogleSheetsConstants;
 import org.apache.camel.component.google.sheets.server.GoogleSheetsApiTestServer;
 import org.apache.camel.component.google.sheets.server.GoogleSheetsApiTestServerRule;
 import org.apache.camel.test.junit4.CamelTestSupport;
-import org.apache.camel.util.IntrospectionSupport;
+import org.apache.camel.support.IntrospectionSupport;
 import org.junit.ClassRule;
 
 /**

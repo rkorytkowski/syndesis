@@ -15,18 +15,19 @@
  */
 package org.apache.camel.component.olingo4;
 
-import java.util.Map;
 import org.apache.camel.component.olingo4.internal.Olingo4ApiName;
 import org.apache.camel.spi.Metadata;
 import org.apache.camel.spi.UriParam;
 import org.apache.camel.spi.UriParams;
 import org.apache.camel.spi.UriPath;
-import org.apache.camel.util.jsse.SSLContextParameters;
+import org.apache.camel.support.jsse.SSLContextParameters;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.http.HttpHost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+
+import java.util.Map;
 
 /**
  * Component configuration for Olingo4 component.
@@ -39,9 +40,9 @@ public class Olingo4Configuration {
     private static final int DEFAULT_TIMEOUT = 30 * 1000;
 
     @UriPath
-    @Metadata(required = "true")
+    @Metadata(required = true)
     private Olingo4ApiName apiName;
-    @UriPath @Metadata(required = "true")
+    @UriPath @Metadata(required = true)
     private String methodName;
     @UriParam
     private String serviceUri;

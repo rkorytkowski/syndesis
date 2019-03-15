@@ -24,7 +24,7 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.Component;
 import org.apache.camel.Endpoint;
 import org.apache.camel.component.rest.swagger.RestSwaggerEndpoint;
-import org.apache.camel.util.IntrospectionSupport;
+import org.apache.camel.support.IntrospectionSupport;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;

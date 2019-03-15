@@ -15,19 +15,13 @@
  */
 package io.syndesis.integration.runtime.sb;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.ServiceLoader;
-import javax.xml.bind.JAXBException;
-
 import io.syndesis.integration.runtime.IntegrationRouteBuilder;
 import io.syndesis.integration.runtime.IntegrationStepHandler;
 import io.syndesis.integration.runtime.logging.ActivityTracker;
 import io.syndesis.integration.runtime.sb.logging.IntegrationLoggingConfiguration;
-
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.model.ModelCamelContext;
 import org.apache.camel.model.ModelHelper;
 import org.apache.camel.model.RoutesDefinition;
 import org.apache.camel.spring.boot.CamelContextConfiguration;
@@ -38,6 +32,12 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.xml.bind.JAXBException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.ServiceLoader;
 
 @Configuration
 @ConditionalOnProperty(prefix = "syndesis.integration.runtime", name = "enabled", matchIfMissing = true)
@@ -98,7 +98,7 @@ public class IntegrationRuntimeAutoConfiguration {
             @Override
             public void afterApplicationStart(CamelContext camelContext) {
                 RoutesDefinition routes = new RoutesDefinition();
-                routes.setRoutes(camelContext.getRouteDefinitions());
+                routes.setRoutes(camelContext.adapt(ModelCamelContext.class).getRouteDefinitions());
 
                 try {
                     if (LOGGER.isDebugEnabled()) {

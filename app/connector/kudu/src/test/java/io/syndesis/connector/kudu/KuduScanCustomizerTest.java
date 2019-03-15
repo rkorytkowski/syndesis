@@ -18,7 +18,7 @@ package io.syndesis.connector.kudu;
 
 import io.syndesis.connector.kudu.common.KuduSupport;
 import org.apache.camel.Exchange;
-import org.apache.camel.impl.DefaultExchange;
+import org.apache.camel.support.DefaultExchange;
 import org.apache.kudu.ColumnSchema;
 import org.apache.kudu.client.KuduClient;
 import org.apache.kudu.client.KuduScanner;

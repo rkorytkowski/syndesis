@@ -15,20 +15,6 @@
  */
 package io.syndesis.integration.runtime;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-
 import io.syndesis.common.model.action.StepAction;
 import io.syndesis.common.model.integration.Flow;
 import io.syndesis.common.model.integration.Integration;
@@ -43,7 +29,9 @@ import io.syndesis.integration.runtime.logging.ActivityTrackingPolicy;
 import io.syndesis.integration.runtime.logging.IntegrationLoggingConstants;
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.model.ExpressionNode;
+import org.apache.camel.model.ModelCamelContext;
 import org.apache.camel.model.ModelHelper;
 import org.apache.camel.model.PipelineDefinition;
 import org.apache.camel.model.ProcessorDefinition;
@@ -51,10 +39,24 @@ import org.apache.camel.model.RouteDefinition;
 import org.apache.camel.model.RoutesDefinition;
 import org.apache.camel.runtimecatalog.RuntimeCamelCatalog;
 import org.apache.camel.spi.RoutePolicy;
+import org.apache.camel.support.ResourceHelper;
 import org.apache.camel.util.ObjectHelper;
-import org.apache.camel.util.ResourceHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * A Camel {@link RouteBuilder} which maps an Integration to Camel routes
@@ -95,6 +97,17 @@ public class IntegrationRouteBuilder extends RouteBuilder {
         }
 
         return integration;
+    }
+
+    @Override
+    public ModelCamelContext getContext() {
+        ModelCamelContext context = super.getContext();
+        if (context == null) {
+            context = new DefaultCamelContext();
+            this.setContext(context);
+        }
+
+        return context;
     }
 
     @Override
@@ -280,7 +293,7 @@ public class IntegrationRouteBuilder extends RouteBuilder {
                 properties.put("timerName", "integration");
                 properties.put("period", scheduler.getExpression());
 
-                final RuntimeCamelCatalog catalog = getContext().getRuntimeCamelCatalog();
+                final RuntimeCamelCatalog catalog = getContext().getExtension(RuntimeCamelCatalog.class);
                 final String uri = catalog.asEndpointUri("timer", properties, false);
 
                 RouteDefinition route = this.from(uri);
@@ -316,7 +329,7 @@ public class IntegrationRouteBuilder extends RouteBuilder {
                 LOGGER.debug("Resolved resource: {} as {}", resource, instance.getClass());
 
                 try {
-                    context.addRouteDefinitions(definitions.getRoutes());
+                    ((ModelCamelContext) context).addRouteDefinitions(definitions.getRoutes());
                 } catch (Exception e) {
                     throw new IllegalStateException(e);
                 }

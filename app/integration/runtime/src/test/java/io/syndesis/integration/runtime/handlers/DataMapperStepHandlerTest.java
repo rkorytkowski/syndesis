@@ -15,12 +15,6 @@
  */
 package io.syndesis.integration.runtime.handlers;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import io.syndesis.common.model.action.ConnectorAction;
 import io.syndesis.common.model.action.ConnectorDescriptor;
 import io.syndesis.common.model.integration.Step;
@@ -32,14 +26,21 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
-import org.apache.camel.impl.DefaultExchange;
-import org.apache.camel.impl.DefaultMessage;
+import org.apache.camel.model.ModelCamelContext;
 import org.apache.camel.model.PipelineDefinition;
 import org.apache.camel.model.ProcessDefinition;
 import org.apache.camel.model.RouteDefinition;
 import org.apache.camel.model.SetHeaderDefinition;
 import org.apache.camel.model.ToDefinition;
+import org.apache.camel.support.DefaultExchange;
+import org.apache.camel.support.DefaultMessage;
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -50,7 +51,7 @@ public class DataMapperStepHandlerTest extends IntegrationTestSupport {
 
     @Test
     public void testDataMapperStep() throws Exception {
-        final CamelContext context = new DefaultCamelContext();
+        final ModelCamelContext context = new DefaultCamelContext().adapt(ModelCamelContext.class);
 
         try {
             final RouteBuilder routeBuilder = newIntegrationRouteBuilder(getTestSteps());
@@ -93,7 +94,7 @@ public class DataMapperStepHandlerTest extends IntegrationTestSupport {
 
     @Test
     public void testJsonTypeProcessors() throws Exception {
-        final CamelContext context = new DefaultCamelContext();
+        final ModelCamelContext context = new DefaultCamelContext().adapt(ModelCamelContext.class);
 
         try {
             final RouteBuilder routeBuilder = newIntegrationRouteBuilder(getTestSteps("{" +
@@ -145,7 +146,7 @@ public class DataMapperStepHandlerTest extends IntegrationTestSupport {
 
     @Test
     public void testJsonTypeProcessorsSkip() throws Exception {
-        final CamelContext context = new DefaultCamelContext();
+        final ModelCamelContext context = new DefaultCamelContext().adapt(ModelCamelContext.class);
 
         try {
             final RouteBuilder routeBuilder = newIntegrationRouteBuilder(getTestSteps("{" +

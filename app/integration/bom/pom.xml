@@ -27,9 +27,9 @@
   <packaging>pom</packaging>
 
   <properties>
-    <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
-    <camel.version>2.21.0.fuse-730054</camel.version>
-    <atlasmap.version>1.39.6</atlasmap.version>
+    <spring-boot.version>2.1.3.RELEASE</spring-boot.version>
+    <camel.version>3.0.0-M1</camel.version>
+    <atlasmap.version>1.39.5</atlasmap.version>
   </properties>
 
     <!-- Metadata need to publish to central -->
@@ -271,11 +271,13 @@
         <artifactId>connector-concur</artifactId>
         <version>${project.version}</version>
       </dependency>
+      <!-- TODO: Camel 3 disabled until rest-swagger fixed
       <dependency>
         <groupId>io.syndesis.connector</groupId>
         <artifactId>connector-rest-swagger</artifactId>
         <version>${project.version}</version>
       </dependency>
+      -->
       <dependency>
         <groupId>io.syndesis.connector</groupId>
         <artifactId>connector-webhook</artifactId>

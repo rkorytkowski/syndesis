@@ -49,7 +49,7 @@ import org.apache.camel.component.servicenow.ServiceNowConfiguration;
 import org.apache.camel.component.servicenow.ServiceNowConstants;
 import org.apache.camel.component.servicenow.ServiceNowHelper;
 import org.apache.camel.component.servicenow.model.DictionaryEntry;
-import org.apache.camel.util.IntrospectionSupport;
+import org.apache.camel.support.IntrospectionSupport;
 import org.apache.camel.util.ObjectHelper;
 import org.apache.camel.util.StringHelper;
 import org.slf4j.Logger;

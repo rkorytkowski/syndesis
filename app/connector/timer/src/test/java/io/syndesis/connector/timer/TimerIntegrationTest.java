@@ -44,6 +44,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.contentOf;
 
 @RunWith(Parameterized.class)
 public class TimerIntegrationTest {
@@ -63,6 +64,8 @@ public class TimerIntegrationTest {
         final RouteBuilder builder = createRouteBuilder();
 
         final CamelContext context = builder.getContext();
+        context.disableJMX();
+
         builder.addRoutesToCamelContext(context);
 
         try {
@@ -77,13 +80,6 @@ public class TimerIntegrationTest {
 
     RouteBuilder createRouteBuilder() {
         return new IntegrationRouteBuilder("", Resources.loadServices(IntegrationStepHandler.class)) {
-            @Override
-            protected ModelCamelContext createContainer() {
-                final DefaultCamelContext leanContext = new DefaultCamelContext();
-                leanContext.disableJMX();
-
-                return leanContext;
-            }
 
             @Override
             protected Integration loadIntegration() {

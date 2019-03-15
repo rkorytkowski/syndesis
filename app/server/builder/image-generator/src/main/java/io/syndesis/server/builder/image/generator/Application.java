@@ -15,20 +15,30 @@
  */
 package io.syndesis.server.builder.image.generator;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
+import io.syndesis.common.model.Kind;
+import io.syndesis.common.model.ModelData;
+import io.syndesis.common.model.action.Action;
+import io.syndesis.common.model.action.ConnectorAction;
+import io.syndesis.common.model.action.ConnectorDescriptor;
+import io.syndesis.common.model.connection.Connection;
+import io.syndesis.common.model.connection.Connector;
+import io.syndesis.common.model.connection.ConnectorTemplate;
+import io.syndesis.common.model.extension.Extension;
+import io.syndesis.common.model.integration.Flow;
+import io.syndesis.common.model.integration.Integration;
+import io.syndesis.common.model.integration.Step;
 import io.syndesis.common.model.integration.StepKind;
 import io.syndesis.common.model.openapi.OpenApi;
+import io.syndesis.common.util.Json;
 import io.syndesis.common.util.MavenProperties;
+import io.syndesis.common.util.SuppressFBWarnings;
+import io.syndesis.integration.api.IntegrationProjectGenerator;
+import io.syndesis.integration.api.IntegrationResourceManager;
+import io.syndesis.integration.project.generator.ProjectGenerator;
+import io.syndesis.integration.project.generator.ProjectGeneratorAutoConfiguration;
+import io.syndesis.integration.project.generator.ProjectGeneratorConfiguration;
+import io.syndesis.server.dao.init.ReadApiClientData;
+import io.syndesis.server.dao.manager.DaoConfiguration;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,27 +53,16 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternUtils;
 
-import io.syndesis.common.util.Json;
-import io.syndesis.common.util.SuppressFBWarnings;
-import io.syndesis.server.dao.init.ReadApiClientData;
-import io.syndesis.server.dao.manager.DaoConfiguration;
-import io.syndesis.integration.api.IntegrationProjectGenerator;
-import io.syndesis.integration.api.IntegrationResourceManager;
-import io.syndesis.integration.project.generator.ProjectGenerator;
-import io.syndesis.integration.project.generator.ProjectGeneratorAutoConfiguration;
-import io.syndesis.integration.project.generator.ProjectGeneratorConfiguration;
-import io.syndesis.common.model.Kind;
-import io.syndesis.common.model.ModelData;
-import io.syndesis.common.model.action.Action;
-import io.syndesis.common.model.action.ConnectorAction;
-import io.syndesis.common.model.action.ConnectorDescriptor;
-import io.syndesis.common.model.connection.Connection;
-import io.syndesis.common.model.connection.Connector;
-import io.syndesis.common.model.connection.ConnectorTemplate;
-import io.syndesis.common.model.extension.Extension;
-import io.syndesis.common.model.integration.Flow;
-import io.syndesis.common.model.integration.Integration;
-import io.syndesis.common.model.integration.Step;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @EnableConfigurationProperties(SpringMavenProperties.class)
 @SpringBootApplication(
@@ -151,6 +150,10 @@ public class Application implements ApplicationRunner {
 
             if (resources != null) {
                 for (Resource resource: resources) {
+                    if (resource.getFile().getAbsolutePath().contains("rest-swagger")) {
+                        //TODO: Camel 3 enable back rest-swagger
+                        continue;
+                    }
                     Connector connector = Json.reader().forType(Connector.class).readValue(resource.getInputStream());
 
                     if (connector != null) {

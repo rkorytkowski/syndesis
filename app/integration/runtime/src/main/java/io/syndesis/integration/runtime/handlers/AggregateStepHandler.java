@@ -16,6 +16,17 @@
 
 package io.syndesis.integration.runtime.handlers;
 
+import io.syndesis.common.model.integration.Step;
+import io.syndesis.common.model.integration.StepKind;
+import io.syndesis.integration.runtime.IntegrationRouteBuilder;
+import io.syndesis.integration.runtime.IntegrationStepHandler;
+import org.apache.camel.AggregationStrategy;
+import org.apache.camel.Exchange;
+import org.apache.camel.model.ProcessorDefinition;
+import org.apache.camel.processor.aggregate.GroupedBodyAggregationStrategy;
+import org.apache.camel.processor.aggregate.UseLatestAggregationStrategy;
+import org.apache.camel.processor.aggregate.UseOriginalAggregationStrategy;
+
 import javax.annotation.concurrent.Immutable;
 import javax.script.Bindings;
 import javax.script.ScriptEngine;
@@ -26,17 +37,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
-
-import io.syndesis.common.model.integration.Step;
-import io.syndesis.common.model.integration.StepKind;
-import io.syndesis.integration.runtime.IntegrationRouteBuilder;
-import io.syndesis.integration.runtime.IntegrationStepHandler;
-import org.apache.camel.Exchange;
-import org.apache.camel.model.ProcessorDefinition;
-import org.apache.camel.processor.aggregate.AggregationStrategy;
-import org.apache.camel.processor.aggregate.GroupedBodyAggregationStrategy;
-import org.apache.camel.processor.aggregate.UseLatestAggregationStrategy;
-import org.apache.camel.processor.aggregate.UseOriginalAggregationStrategy;
 
 public class AggregateStepHandler implements IntegrationStepHandler {
     @Override

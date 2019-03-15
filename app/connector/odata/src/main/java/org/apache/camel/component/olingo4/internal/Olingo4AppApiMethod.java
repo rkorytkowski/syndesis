@@ -19,13 +19,13 @@
  */
 package org.apache.camel.component.olingo4.internal;
 
-import static org.apache.camel.util.component.ApiMethodArg.arg;
+import static org.apache.camel.support.component.ApiMethodArg.arg;
 import java.lang.reflect.Method;
 import java.util.List;
 import org.apache.camel.component.olingo4.api.Olingo4App;
-import org.apache.camel.util.component.ApiMethod;
-import org.apache.camel.util.component.ApiMethodArg;
-import org.apache.camel.util.component.ApiMethodImpl;
+import org.apache.camel.support.component.ApiMethod;
+import org.apache.camel.support.component.ApiMethodArg;
+import org.apache.camel.support.component.ApiMethodImpl;
 
 /**
  * Camel {@link ApiMethod} Enumeration for org.apache.camel.component.olingo4.api.Olingo4App
