@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Extensions, Step, DataShapeKinds } from '@syndesis/ui/platform';
+import { Extensions, Step, DataShapeKinds, DataShape, ActionDescriptor, Action } from '@syndesis/ui/platform';
 
 export interface StepKind extends Step {
   name: string;
@@ -27,6 +27,7 @@ export const SPLIT = 'split';
 export const AGGREGATE = 'aggregate';
 export const LOG = 'log';
 export const TEMPLATE = 'template';
+export const CONTENT_BASED_ROUTER = 'choice';
 
 @Injectable()
 export class StepStore {
@@ -94,6 +95,29 @@ $\{in.body.title\} // Evaluates true when body contains title.
       },
       configuredProperties: undefined,
     }),
+    StepStore.requiresOutputDataShape({
+      id: undefined,
+      connection: undefined,
+      action: {
+        actionType: 'step',
+        descriptor: {
+          inputDataShape: {
+            kind: DataShapeKinds.ANY,
+            name: 'Any input shape'
+          } as DataShape,
+          outputDataShape: {
+            kind: DataShapeKinds.ANY,
+            name: 'Any output shape'
+          } as DataShape
+        } as ActionDescriptor
+      } as Action,
+      name: 'Content Based Router',
+      description:
+        'Sends the message to different flows based on condition evaluation',
+      stepKind: CONTENT_BASED_ROUTER,
+      properties: {},
+      configuredProperties: undefined
+    }, true),
     {
       id: undefined,
       connection: undefined,
@@ -273,6 +297,7 @@ $\{in.body.title\} // Evaluates true when body contains title.
   // properties in customProperties
   isCustomStep(step: Step): boolean {
     return (
+      step.stepKind === CONTENT_BASED_ROUTER ||
       step.stepKind === BASIC_FILTER ||
       step.stepKind === DATA_MAPPER ||
       step.stepKind === TEMPLATE

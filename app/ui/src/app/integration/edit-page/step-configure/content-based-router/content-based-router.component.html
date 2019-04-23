@@ -1,0 +1,104 @@
+<!--
+  ~ Copyright (C) 2016 Red Hat, Inc.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<div *ngIf="form">
+  <syndesis-loading [loading]="loading" [content]="content">
+    <ng-template #content>
+      <form (change)="onChange($event)" [formGroup]="form" class="cbr-form">
+
+        <div class="form-group">
+          <fieldset
+            formArrayName="flowOptions"
+            *ngFor="let flowSet of form.get('flowOptions').controls; let i = index;"
+            class="flowOptionsContainer">
+            <div [formGroupName]="i">
+              <input
+                class="form-control"
+                formControlName="flow"
+                type="hidden">
+              <div class="col-md-6 flow-col">
+                <input
+                  class="form-control"
+                  formControlName="condition"
+                  type="text"
+                  [attr.list]="'path-list-' + i"
+                  placeholder="Condition">
+                <span class="help-block">The condition you want to evaluate</span>
+                <span *ngIf="!flowSet.controls.condition.pristine && flowSet.controls.condition.errors?.required" class="help-block error">Object property name is required</span>
+                <span *ngIf="flowSet.controls.condition.errors?.maxlength" class="help-block error">Maximum Characters Exceeded</span>
+              </div>
+              <div class="col-sm-12 col-md-3">
+                <button
+                  tooltip="Open this flow set group"
+                  (keydown.enter)="openFlow(i)"
+                  (click)="openFlow(i)" [textContent]="'Open flow #' + i">
+                </button>
+              </div>
+              <div class="col-sm-12 col-md-3">
+                <div class="pull-right flow-buttons">
+                  <a
+                    *ngIf="i > 0"
+                    tabindex="1"
+                    [attr.aria-label]="'Remove flow #' + i"
+                    class="fa fa-trash-o"
+                    tooltip="Remove this flow set group"
+                    placement="left"
+                    container="body"
+                    (keydown.enter)="removeFlow(i)"
+                    (click)="removeFlow(i)">
+                  </a>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="form-group">
+          <fieldset formGroupName="defaultFlow" class="defaultFlowContainer">
+            <div class="col-md-6 flow-col">
+              <div class="checkbox">
+                <label>
+                  <input
+                       formControlName="defaultFlowEnabled"
+                       type="checkbox"
+                       (change)="toggleDefaultFlow()"> Use default flow
+                </label>
+              </div>
+              <span class="help-block">Use this flow when no other condition matches</span>
+            </div>
+            <div class="col-sm-12 col-md-3">
+              <button
+                *ngIf="form.get('defaultFlow').controls.defaultFlowEnabled.value"
+                tooltip="Open default flow"
+                (keydown.enter)="openDefaultFlow()"
+                (click)="openDefaultFlow()">Open default
+              </button>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="form-group">
+          <button
+            (keydown.enter)="createFlow()"
+            (click)="createFlow()"
+            class="add-flow">+ Add another flow
+          </button>
+        </div>
+
+      </form>
+    </ng-template>
+  </syndesis-loading>
+</div>

@@ -40,7 +40,7 @@ import {
   INTEGRATION_SAVE,
   INTEGRATION_SET_DATASHAPE,
   INTEGRATION_SET_CONNECTION,
-  INTEGRATION_SAVED,
+  INTEGRATION_SAVED, INTEGRATION_ADD_FLOW,
 } from '@syndesis/ui/integration/edit-page';
 import {
   setIntegrationProperty,
@@ -591,6 +591,11 @@ export class CurrentFlowService {
         );
         thenFinally();
         break;
+      case INTEGRATION_ADD_FLOW:
+        const flow = event.flow;
+        this.flows.push(flow);
+        thenFinally();
+        break;
       case INTEGRATION_SAVE: {
         // ensure that all steps have IDs before saving
         const integration = prepareIntegrationForSaving(
@@ -747,7 +752,13 @@ export class CurrentFlowService {
   }
 
   set integration(i: Integration) {
-    this._integration = <Integration>i;
+    // quick hack to avoid overwriting the loaded integration
+    if (
+      !this._integration ||
+      (i.id !== this._integration.id && this.dirty$.value)
+    ) {
+      this._integration = <Integration>i;
+    }
     if (!this.flowId) {
       this.flowId = i.flows && i.flows.length > 0 ? i.flows[0].id : undefined;
     }
