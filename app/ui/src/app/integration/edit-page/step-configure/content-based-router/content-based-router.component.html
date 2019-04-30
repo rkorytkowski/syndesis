@@ -14,6 +14,13 @@
   ~ limitations under the License.
   -->
 
+<syndesis-modal
+  id="save-cbr-integration-prompt"
+  title="Save integration"
+  message="In order to add Content Based Router you need to save the integration first."
+>
+</syndesis-modal>
+
 <div *ngIf="form">
   <syndesis-loading [loading]="loading" [content]="content">
     <ng-template #content>
@@ -67,6 +74,14 @@
         </div>
 
         <div class="form-group">
+          <button
+            (keydown.enter)="createFlow()"
+            (click)="createFlow()"
+            class="add-flow">+ Add another flow
+          </button>
+        </div>
+
+        <div class="form-group">
           <fieldset formGroupName="defaultFlow" class="defaultFlowContainer">
             <div class="col-md-6 flow-col">
               <div class="checkbox">
@@ -89,15 +104,6 @@
             </div>
           </fieldset>
         </div>
-
-        <div class="form-group">
-          <button
-            (keydown.enter)="createFlow()"
-            (click)="createFlow()"
-            class="add-flow">+ Add another flow
-          </button>
-        </div>
-
       </form>
     </ng-template>
   </syndesis-loading>

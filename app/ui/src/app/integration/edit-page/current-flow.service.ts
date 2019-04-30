@@ -610,7 +610,7 @@ export class CurrentFlowService {
         };
         const sub = this.integrationStore.updateOrCreate(integration).subscribe(
           (i: Integration) => {
-            if (!this._integration.id) {
+              if (!this._integration.id) {
               this._integration.id = i.id;
             }
             if (event.publish) {

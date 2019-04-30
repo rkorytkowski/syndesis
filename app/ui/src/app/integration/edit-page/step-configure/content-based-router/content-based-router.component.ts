@@ -23,7 +23,7 @@ import {
 
 import {
   ContentBasedRouter,
-  CurrentFlowService, FlowOption,
+  CurrentFlowService, FlowOption, FlowPageService,
   INTEGRATION_ADD_FLOW
 } from '@syndesis/ui/integration/edit-page';
 import {
@@ -36,10 +36,11 @@ import {
   key,
   Step
 } from '@syndesis/ui/platform';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ENDPOINT } from '@syndesis/ui/store';
+import { ModalService } from '@syndesis/ui/common';
 
 @Component({
   selector: 'syndesis-content-based-router',
@@ -78,16 +79,19 @@ export class ContentBasedRouterComponent implements OnInit, OnChanges, OnDestroy
   constructor(
     private currentFlowService: CurrentFlowService,
     public integrationSupportService: IntegrationSupportService,
+    public flowPageService: FlowPageService,
+    public route: ActivatedRoute,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private modalService: ModalService
   ) {
     // nothing to do
   }
+
   // this can be valid even if we can't fetch the form data
   initForm(
     configuredProperties?: ContentBasedRouter,
   ): void {
-
     let configuredFlows: FlowOption[] = undefined;
     const configuredFlowGroups = [];
     const configuredDefaultFlow = (configuredProperties && configuredProperties.default)
@@ -147,6 +151,20 @@ export class ContentBasedRouterComponent implements OnInit, OnChanges, OnDestroy
   }
 
   ngOnInit(): void {
+    // setTimeout needed so that the prompt template is available
+    // and ExpressionChangedAfterItHasBeenCheckedError is not thrown
+    setTimeout(() => {
+      if (!this.currentFlowService.isSaved()) {
+        this.modalService
+          .show('save-cbr-integration-prompt').then(modal => {
+          if (modal.result) {
+            this.flowPageService.save(this.route);
+          } else {
+            this.flowPageService.cancel();
+          }
+        });
+      }
+    });
     this.step = this.currentFlowService.getStep(this.position);
   }
 
@@ -298,9 +316,9 @@ export class ContentBasedRouterComponent implements OnInit, OnChanges, OnDestroy
 
   createFlowStart(step: Step): Step {
     if (this.step &&
-        this.step.action &&
-        this.step.action.descriptor &&
-        this.step.action.descriptor.outputDataShape) {
+      this.step.action &&
+      this.step.action.descriptor &&
+      this.step.action.descriptor.outputDataShape) {
       step.action.descriptor.outputDataShape = this.step.action.descriptor.outputDataShape;
     }
 
@@ -309,9 +327,9 @@ export class ContentBasedRouterComponent implements OnInit, OnChanges, OnDestroy
 
   createFlowEnd(step: Step): Step {
     if (this.step &&
-        this.step.action &&
-        this.step.action.descriptor &&
-        this.step.action.descriptor.inputDataShape) {
+      this.step.action &&
+      this.step.action.descriptor &&
+      this.step.action.descriptor.inputDataShape) {
       step.action.descriptor.inputDataShape = this.step.action.descriptor.inputDataShape;
     }
 
